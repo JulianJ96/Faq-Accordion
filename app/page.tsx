@@ -5,9 +5,9 @@ import { useState } from "react";
 
 const FAQ = () => {
   // Tracking Visibility of each answer
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const handleClick = (index) => {
+  const handleClick = (index: number) => {
     setOpenIndex(openIndex === index ? null : index); // Toggle Visibility
   };
 
@@ -47,43 +47,45 @@ const FAQ = () => {
         {/* FAQ Accordion Content */}
         <div className="mt-7 space-y-4">
           <ul>
-            {faqContent.map((item, index) => (
-              <div
-                key={index}
-                className="border-b border-gray-200 pb-4 md:mb-2"
-              >
-                <div className="flex justify-between h-[40px] w-full items-center space-y-2 pb-4 pt-6 pr-4 m-[7.5px] md:m-3">
-                  <h2 className=" flex font-semibold  text-dark-purple hover:text-grayish-purple w-full">
-                    {item.question}
-                  </h2>
-                  <button
-                    className={`${
-                      openIndex === index
-                        ? "text-dark-purple"
-                        : "text-grayish-purple"
-                    }`}
-                    onClick={() => handleClick(index)}
-                  >
-                    <Image
-                      src={
+            {faqContent.map(
+              (item: { question: string; answer: string }, index: number) => (
+                <div
+                  key={index}
+                  className="border-b border-gray-200 pb-4 md:mb-2"
+                >
+                  <div className="flex justify-between h-[40px] w-full items-center space-y-2 pb-4 pt-6 pr-4 m-[7.5px] md:m-3">
+                    <h2 className=" flex font-semibold  text-dark-purple hover:text-grayish-purple w-full">
+                      {item.question}
+                    </h2>
+                    <button
+                      className={`${
                         openIndex === index
-                          ? "/icon-minus.svg"
-                          : "/icon-plus.svg"
-                      }
-                      width={30}
-                      height={31}
-                      alt="Toggle answer"
-                    />
-                  </button>
+                          ? "text-dark-purple"
+                          : "text-grayish-purple"
+                      }`}
+                      onClick={() => handleClick(index)}
+                    >
+                      <Image
+                        src={
+                          openIndex === index
+                            ? "/icon-minus.svg"
+                            : "/icon-plus.svg"
+                        }
+                        width={30}
+                        height={31}
+                        alt="Toggle answer"
+                      />
+                    </button>
+                  </div>
+                  {/* Conditional rendering for the answer */}
+                  {openIndex === index && (
+                    <p className="text-grayish-purple pt-2 pb-2 m-1.5 md:m-[7.5px] w-full flex text-sm">
+                      {item.answer}
+                    </p>
+                  )}
                 </div>
-                {/* Conditional rendering for the answer */}
-                {openIndex === index && (
-                  <p className="text-grayish-purple pt-2 pb-2 m-1.5 md:m-[7.5px] w-full flex text-sm">
-                    {item.answer}
-                  </p>
-                )}
-              </div>
-            ))}
+              )
+            )}
           </ul>
         </div>
       </div>
